@@ -27,4 +27,21 @@ warmStrategyCache({
 registerRoute(({ request }) => request.mode === 'navigate', pageCache);
 
 // TODO: Implement asset caching
+self.addEventListener('install', e => {
+  e.waitUntil(
+    caches.open('cache-v1').then(cache => {
+      return cache.addAll(
+        [
+          '/',
+          '/index.html',
+          '/css/style.css',
+          '/index.js',
+          '/images/logo.png',
+        ]
+      );
+    })
+  );
+});
+
 registerRoute();
+
