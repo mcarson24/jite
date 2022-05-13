@@ -26,6 +26,22 @@ module.exports = {
     new MiniCssExtractPlugin(),
     new WorkboxPlugin.GenerateSW({
       swDest: path.resolve('dist/service-worker.js'),
+      exclude: [/\.(?:png|jpg|jpeg|svg)$/],
+      // Run-time caching:
+      runtimeCaching: [{
+        urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+        handler: 'CacheFirst',
+
+        options: {
+          // Use a custom cache name.
+          cacheName: 'images-and-such',
+
+          // Only cache 2 images.
+          expiration: {
+            maxEntries: 210,
+          },
+        }
+      }]
     }),
     // new InjectManifest({
     //   swSrc: './src-sw.js',
